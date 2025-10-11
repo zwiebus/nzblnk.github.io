@@ -1,1 +1,0 @@
-<svg class="nzb-icon" viewbox="0 0 16 16"><use xlink:href="#logo-nzblnk" x="0" y="0"/></svg>

@@ -176,7 +176,7 @@ body {
         margin: 0 auto;
         width: 100%;
 }
-.btn, .lang {
+.btn, .btnreset, .lang {
         background-color:#1A5779;
         color:#fff;
         font-size:16px;
@@ -195,7 +195,7 @@ body {
        width: 90px;
        text-align: center;
 }
-.btn:hover, .lang:hover {
+.btn:hover, .btnreset:hover, .lang:hover {
         background-color:#EFEFEF;
         color:#2F2F2F;
         border:1px solid #3F6D9B;
@@ -213,7 +213,7 @@ body {
 <h2>NZBLNK Generator</h2>
 <a id="cl" onclick="changeLang('en',null);" class="lang">Englisch</a>
 <p class="en" id="en" style="display:none;">Enter your data to generate a nzblnklink. Press the ready nzblnklink to copy it into your clipboard.<br> Mandatory fields are marked with a star (*). You can also drop a NZB file on this website.<br>** These fields are required for the direct search with <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a></p>
-<p class="de" id="de">Geben Sie Ihre Daten ein, um einen NZBLNK-Link zu erstellen. Klicken Sie auf den fertigen NZBLNK-Link, um ihn in Ihre Zwischenablage zu kopieren.<br>Obligatorische Felder sind mit einem Stern gekennzeichnet (*). Sie können auch eine NZB-Datei auf dieser Website ablegen.<br>** Diese Felder werden für die Direktsuche mit <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a> benötigt.</p>
+<p class="de" id="de">Geben Sie Ihre Daten ein, um einen NZBLNK-Link zu erstellen. Klicken Sie auf den fertigen NZBLNK-Link, um ihn in Ihre Zwischenablage zu kopieren.<br>Obligatorische Felder sind mit einem Stern gekennzeichnet (*). Sie kÃ¶nnen auch eine NZB-Datei auf dieser Website ablegen.<br>** Diese Felder werden fÃ¼r die Direktsuche mit <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a> benÃ¶tigt.</p>
 <form id="form">
 <input type="text" class="nzbparam" id="tag" placeholder="Name *">
 <input type="text" class="nzbparam" id="header" placeholder="Header *">
@@ -229,9 +229,87 @@ body {
 <button id="btn-cplnk" data-tpl="{nzblnk}" class="btn">NZBLNK</button>
 <button id="btn-cpurl" data-tpl="<a href=&quot;{nzblnk}&quot;>{title}</a>" class="btn">HTML</button>
 <button id="btn-cpbbc" data-tpl="[url=&quot;{nzblnk}&quot;]{title}[/url]" class="btn">BBCode</button>
-<button onclick="resetForm();" class="btn">Reset</button>
+<button onclick="resetForm();" class="btnreset">Reset</button>
 </div>
-<script>"use strict";String.prototype.replacePlaceholder=function(e){return this.replace(/{(\w+)}/g,(function(t,n){return e[n]}))};const $=document.querySelector.bind(document),$$=document.querySelectorAll.bind(document),$lnk=$("#reslnk");let constuctLink=e=>{let t="th",n={t:$("#tag").value,h:$("#header").value,p:$("#pass").value,g:$("#group").value,d:$("#date").value},a=[];if(Object.keys(n).forEach(e=>{let r=n[e];""!==r.trim()&&(a.push(e+"="+encodeURIComponent(r).replace(/%20/g,"+")),t=t.replace(e,""))}),""!==t)return $lnk.href="#",$lnk.textContent="Please fill all mandatory fields (marked with *).",void $lnk.classList.add("invalid");$lnk.classList.remove("invalid"),a="nzblnk:?"+a.join("&"),$lnk.href=$lnk.textContent=a};$$("input.nzbparam").forEach(e=>{e.addEventListener("keyup",constuctLink),e.addEventListener("blur",constuctLink)}),$$(".btn").forEach((function(e){e.addEventListener("click",e=>{if($lnk.classList.contains("invalid"))return;let t=document.createElement("input");t.className="hidden",t.value=e.target.getAttribute("data-tpl").replacePlaceholder({nzblnk:$lnk.textContent,title:$("#tag").value}),document.body.appendChild(t),t.select(),document.execCommand("copy"),document.body.removeChild(t)})}));let dragCount=0;["drag","dragstart","dragend","dragover","dragenter","dragleave","drop"].forEach(e=>{window.addEventListener(e,e=>{e.preventDefault(),e.stopPropagation()})}),["dragenter"].forEach(e=>{window.addEventListener(e,e=>{dragCount++,1===dragCount&&document.body.classList.add("drop")},!0)});let readFile=e=>new Promise((t,n)=>{const a=new FileReader;a.onload=n=>t({xml:a.result,name:e.name}),a.onerror=e=>n(e),a.readAsText(e)}),parseXml=e=>{const t=new DOMParser;let n=(window.d=t.parseFromString(e.xml,"text/xml")).getElementsByTagName("file");if(!n.length)return void alert("Invalid file format.");let a=("subject"in n[0].attributes?n[0].attributes.subject.value:"").match(/"([^."]*)/);a=a&&a.length>1?a[1]:null;let r=d.querySelector("meta[type=password]"),l=r?r.textContent:null,o=e.name.match(/^(.*?)(?:{{(.*)}})?\.nzb/),i=e.name;o&&o.length>1&&(!l&&o[2]&&(l=o[2]),i=o[1]),$("#tag").value=i,$("#header").value=a,$("#pass").value=l,constuctLink()};["dragleave","dragend","drop"].forEach(e=>{window.addEventListener(e,e=>{if(dragCount--,dragCount||document.body.classList.remove("drop"),"drop"===e.type){let t=e.dataTransfer.files;t&&t[0]&&readFile(t[0]).then(parseXml)}},!0)});
+<script>
+"use strict";
+String.prototype.replacePlaceholder = function(e) {
+    return this.replace(/{(\w+)}/g, (function(t, n) {
+        return e[n]
+    }))
+};
+const $ = document.querySelector.bind(document),
+    $$ = document.querySelectorAll.bind(document),
+    $lnk = $("#reslnk");
+let constuctLink = e => {
+    let t = "th",
+        n = {
+            t: $("#tag").value,
+            h: $("#header").value,
+            p: $("#pass").value,
+            g: $("#group").value,
+            d: $("#date").value
+        },
+        a = [];
+    if (Object.keys(n).forEach(e => {
+            let r = n[e];
+           if(r != $("#group").value){
+            "" !== r.trim() && (a.push(e + "=" + encodeURIComponent(r).replace(/%20/g, ".")), t = t.replace(e, ""))
+            } else {
+            "" !== r.trim() && (a.push(e + "=" + encodeURIComponent(r).replace(/%20/g, "&g=")), t = t.replace(e, ""))
+            }
+        }), "" !== t) return $lnk.href = "#", $lnk.textContent = "Please fill all mandatory fields (marked with *).", void $lnk.classList.add("invalid");
+    $lnk.classList.remove("invalid"), a = "nzblnk:?" + a.join("&"), $lnk.href = $lnk.textContent = a
+};
+$$("input.nzbparam").forEach(e => {
+    e.addEventListener("keyup", constuctLink), e.addEventListener("blur", constuctLink)
+}), $$(".btn").forEach((function(e) {
+    e.addEventListener("click", e => {
+        if ($lnk.classList.contains("invalid")) return;
+        let t = document.createElement("input");
+        t.className = "hidden", t.value = e.target.getAttribute("data-tpl").replacePlaceholder({
+            nzblnk: $lnk.textContent,
+            title: $("#tag").value
+        }), document.body.appendChild(t), t.select(), document.execCommand("copy"), document.body.removeChild(t)
+    })
+}));
+let dragCount = 0;
+["drag", "dragstart", "dragend", "dragover", "dragenter", "dragleave", "drop"].forEach(e => {
+    window.addEventListener(e, e => {
+        e.preventDefault(), e.stopPropagation()
+    })
+}), ["dragenter"].forEach(e => {
+    window.addEventListener(e, e => {
+        dragCount++, 1 === dragCount && document.body.classList.add("drop")
+    }, !0)
+});
+let readFile = e => new Promise((t, n) => {
+        const a = new FileReader;
+        a.onload = n => t({
+            xml: a.result,
+            name: e.name
+        }), a.onerror = e => n(e), a.readAsText(e)
+    }),
+    parseXml = e => {
+        const t = new DOMParser;
+        let n = (window.d = t.parseFromString(e.xml, "text/xml")).getElementsByTagName("file");
+        if (!n.length) return void alert("Invalid file format.");
+        let a = ("subject" in n[0].attributes ? n[0].attributes.subject.value : "").match(/"([^."]*)/);
+        a = a && a.length > 1 ? a[1] : null;
+        let r = d.querySelector("meta[type=password]"),
+            l = r ? r.textContent : null,
+            o = e.name.match(/^(.*?)(?:{{(.*)}})?\.nzb/),
+            i = e.name;
+        o && o.length > 1 && (!l && o[2] && (l = o[2]), i = o[1]), $("#tag").value = i, $("#header").value = a, $("#pass").value = l, constuctLink()
+    };
+["dragleave", "dragend", "drop"].forEach(e => {
+    window.addEventListener(e, e => {
+        if (dragCount--, dragCount || document.body.classList.remove("drop"), "drop" === e.type) {
+            let t = e.dataTransfer.files;
+            t && t[0] && readFile(t[0]).then(parseXml)
+        }
+    }, !0)
+});
 
 function resetForm() {
   document.getElementById('form').reset();

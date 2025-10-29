@@ -1,5 +1,5 @@
 # Standalone version of the NZBLNK generator. 
-The only file you need for it to function is index.html , just open it in your browser. 
+Just open index.html in your browser. 
 ## Features
 <ul>
   <li>German/English switchable</li>

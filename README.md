@@ -1,6 +1,5 @@
 # Standalone version of the NZBLNK generator. 
 The only file you need for it to function is index.html , just open it in your browser. 
-You can install the fonts on your device (if you haven't already), but you don't have to.
 ## Features
 <ul>
   <li>German/English switchable</li>

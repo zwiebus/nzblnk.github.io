@@ -123,6 +123,18 @@ body {
         font-size: 1.2em;
         background-color: #e7ebf3;
 }
+.container .date {
+        color: #000;
+        display: inline-block;
+        margin-left: 15%;
+        margin-right: 10px;
+        padding: 2px;
+        border: 1px solid gray;
+        border-radius: 5px;
+        font-size: 1em;
+        background-color: #e7ebf3;
+
+}
 @media screen and (min-width: 768px) {
          .container input.nzbparam {
            width: 80%;
@@ -135,13 +147,20 @@ body {
         button, .btn {
            width: 330px!Important;
         }
+        .small {
+           width: 100px!Important;
+           margin-top: 5px!Important;
+        }
+        .date {
+           margin-left: 5%!Important;
+        }
 }
 .container input.nzbparam:focus {
         outline: none;
         border: 1px solid red;
 }
 .container .linklabel {
-        margin: 1.5em 0 0 0;
+        margin: 0.7em 0 0 0;
 }
 .container a.reslnk {
         display: block;
@@ -188,6 +207,9 @@ body {
         box-shadow:0 0 0;
         cursor: pointer;
 }
+.small {
+        width: 100px;
+}
 .lang {
        position: absolute;
        top:60px;
@@ -201,7 +223,7 @@ body {
         border:1px solid #3F6D9B;
 }
 .logo {
-       position:relative;
+       position:absolute;
        top:0;
        left: 50%;
        transform: translate(0,-50%;
@@ -209,6 +231,7 @@ body {
 </style>
 </head>
 <body>
+<!-- <img src="nzblnk-logo.png" class="logo">  -->
 <div class="container">
 <h2>NZBLNK Generator</h2>
 <a id="cl" onclick="changeLang('en',null);" class="lang">Englisch</a>
@@ -219,11 +242,11 @@ body {
 <input type="text" class="nzbparam" id="header" placeholder="Header *">
 <input type="text" class="nzbparam" id="pass" placeholder="Passwort">
 <input type="text" class="nzbparam" id="group" placeholder="Gruppe (Mehrere Gruppen mit einem Leerzeichen trennen) **">
-<input type="text" class="nzbparam" id="date" placeholder="Datum (t.m.j oder Unix Zeitstempel) **">
+<input type="text" class="nzbparam" id="date" style="margin-bottom:10px;" placeholder="Datum (t.m.j oder Unix Zeitstempel) **"/>
 </form>
-<!-- <img src="nzblnk-logo.png" class="logo">  -->
+<input type="date" class="date" id="dater"/><button onclick="mydate()" id="btnd"class="btn small">Einf&uuml;gen</button>
 <div class="linklabel"><span class="ens" style="display:none;">The resulting nzblnklink:</span><span class="des">Der fertige NZBLNK-Link:</span></div>
-<a id="reslnk" href="#" class="reslnk invalid">Bitte fuelle die Felder aus.</a>
+<a id="reslnk" href="#" class="reslnk invalid">Bitte f&uuml;lle die Felder aus.</a>
 </div>
 <div class="buttons">
 <button id="btn-cplnk" data-tpl="{nzblnk}" class="btn">NZBLNK</button>
@@ -313,7 +336,12 @@ let readFile = e => new Promise((t, n) => {
 
 function resetForm() {
   document.getElementById('form').reset();
-  document.getElementById('reslnk').textContent = "Bitte fuelle die Felder aus. Please fill the fields";
+  let fcl = document.getElementById('cl')
+  if (fcl.textContent === 'German') {
+   document.getElementById('reslnk').textContent  = "Please fill the fields.";
+  } else {
+   document.getElementById('reslnk').textContent  = "Bitte f\u00FClle die Felder aus."
+  }
 }
 function changeLang() {
   const x = document.querySelector(".en");
@@ -338,11 +366,17 @@ function changeLang() {
    } else {
     z.textContent = "Englisch";
   }
+  const r = document.getElementById("btnd");
+    if (r.textContent === "Paste") {
+    r.textContent = "Einf\u00FCgen";
+   } else {
+    r.textContent = "Paste";
+  }
     const res = document.getElementById("reslnk");
-    if (res.textContent === "Bitte fuelle die Felder aus.") {
+    if (res.textContent === "Bitte f\u00FClle die Felder aus.") {
     res.textContent = "Please fill the fields.";
    } else {
-    res.textContent = "Bitte fuelle die Felder aus.";
+    res.textContent = "Bitte f\u00FClle die Felder aus.";
   }
     const tag = document.getElementById("tag");
     if (tag.placeholder === "Name *") {
@@ -369,6 +403,16 @@ function changeLang() {
     date.placeholder = "Datum (t.m.j oder Unix Zeitstempel) **";
   }
 }
+document.getElementById('dater').value = new Date().toISOString().substring(0, 10);
+   function mydate() {
+    let date = document.getElementById("dater").value;
+    date = new Date(date).toLocaleDateString("de-DE" , {
+     year: "numeric",
+     month: "2-digit",
+     day: "2-digit",
+   });
+    document.getElementById("date").value = date;
+   }
 </script>
 </body>
 </html>

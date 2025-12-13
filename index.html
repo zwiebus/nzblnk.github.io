@@ -195,7 +195,7 @@ body {
         margin: 0 auto;
         width: 100%;
 }
-.btn, .btnreset, .lang {
+.btn, .btnd, .lang {
         background-color:#1A5779;
         color:#fff;
         font-size:16px;
@@ -237,14 +237,15 @@ body {
 <a id="cl" onclick="changeLang('en',null);" class="lang">Englisch</a>
 <p class="en" id="en" style="display:none;">Enter your data to generate a nzblnklink. Press the ready nzblnklink to copy it into your clipboard.<br> Mandatory fields are marked with a star (*). You can also drop a NZB file on this website.<br>** These fields are required for the direct search with <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a></p>
 <p class="de" id="de">Geben Sie Ihre Daten ein, um einen NZBLNK-Link zu erstellen. Klicken Sie auf den fertigen NZBLNK-Link, um ihn in Ihre Zwischenablage zu kopieren.<br>Obligatorische Felder sind mit einem Stern gekennzeichnet (*). Sie k&ouml;nnen auch eine NZB-Datei auf dieser Website ablegen.<br>** Diese Felder werden f&uuml;r die Direktsuche mit <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a> ben&ouml;tigt.</p>
-<form id="form">
+<form id="form" style="margin-bottom:-10px;">
 <input type="text" class="nzbparam" id="tag" placeholder="Name *">
 <input type="text" class="nzbparam" id="header" placeholder="Header *">
 <input type="text" class="nzbparam" id="pass" placeholder="Passwort">
 <input type="text" class="nzbparam" id="group" placeholder="Gruppe (Mehrere Gruppen mit einem Leerzeichen trennen) **">
-<input type="text" class="nzbparam" id="date" style="margin-bottom:10px;" placeholder="Datum (t.m.j oder Unix Zeitstempel) **"/>
+<input type="text" class="nzbparam" id="date" placeholder="Datum (t.m.j oder Unix Zeitstempel) **"/>
 </form>
-<input type="date" class="date" id="dater"/><button onclick="mydate()" id="btnd"class="btn small">Einf&uuml;gen</button>
+<input type="date" class="date" id="dater"/>
+<button onclick="rldate()" id="btnd" class="btnd small">Einf&uuml;gen</button>
 <div class="linklabel"><span class="ens" style="display:none;">The resulting nzblnklink:</span><span class="des">Der fertige NZBLNK-Link:</span></div>
 <a id="reslnk" href="#" class="reslnk invalid">Bitte f&uuml;lle die Felder aus.</a>
 </div>
@@ -252,7 +253,7 @@ body {
 <button id="btn-cplnk" data-tpl="{nzblnk}" class="btn">NZBLNK</button>
 <button id="btn-cpurl" data-tpl="<a href=&quot;{nzblnk}&quot;>{title}</a>" class="btn">HTML</button>
 <button id="btn-cpbbc" data-tpl="[url=&quot;{nzblnk}&quot;]{title}[/url]" class="btn">BBCode</button>
-<button onclick="resetForm();" class="btnreset">Reset</button>
+<button onclick="resetForm();" class="btnd">Reset</button>
 </div>
 <script>
 "use strict";
@@ -275,7 +276,7 @@ let constuctLink = e => {
         },
         a = [];
     if (Object.keys(n).forEach(e => {
-            let r = n[e];
+       let r = n[e];
            if(r != $("#group").value){
             "" !== r.trim() && (a.push(e + "=" + encodeURIComponent(r).replace(/%20/g, ".")), t = t.replace(e, ""))
             } else {
@@ -285,8 +286,8 @@ let constuctLink = e => {
     $lnk.classList.remove("invalid"), a = "nzblnk:?" + a.join("&"), $lnk.href = $lnk.textContent = a
 };
 $$("input.nzbparam").forEach(e => {
-    e.addEventListener("keyup", constuctLink), e.addEventListener("blur", constuctLink)
-}), $$(".btn").forEach((function(e) {
+    e.addEventListener("keyup", constuctLink), e.addEventListener("blur", constuctLink), e.addEventListener("focus", constuctLink)
+}),$$(".btn").forEach((function(e) {
     e.addEventListener("click", e => {
         if ($lnk.classList.contains("invalid")) return;
         let t = document.createElement("input");
@@ -372,47 +373,47 @@ function changeLang() {
    } else {
     r.textContent = "Paste";
   }
-    const res = document.getElementById("reslnk");
+    const res = $("#reslnk");
     if (res.textContent === "Bitte f\u00FClle die Felder aus.") {
     res.textContent = "Please fill the fields.";
    } else {
     res.textContent = "Bitte f\u00FClle die Felder aus.";
   }
-    const tag = document.getElementById("tag");
+    const tag = $("#tag");
     if (tag.placeholder === "Name *") {
     tag.placeholder = "Title *";
    } else {
     tag.placeholder = "Name *";
   }
-    const pass = document.getElementById("pass");
+    const pass = $("#pass");
     if (pass.placeholder === "Passwort") {
     pass.placeholder = "Password";
    } else {
     pass.placeholder = "Passwort";
   }
-    const group = document.getElementById("group");
+    const group = $("#group");
     if (group.placeholder === "Gruppe (Mehrere Gruppen mit einem Leerzeichen trennen) **") {
     group.placeholder = "Group (Please separate multiple groups with a space) **";
    } else {
     group.placeholder = "Gruppe (Mehrere Gruppen mit einem Leerzeichen trennen) **";
   }
-    const date = document.getElementById("date");
+    const date = $("#date");
     if (date.placeholder === "Datum (t.m.j oder Unix Zeitstempel) **") {
     date.placeholder = "Date (d.m.y. or Unix Timestamp **";
    } else {
     date.placeholder = "Datum (t.m.j oder Unix Zeitstempel) **";
   }
 }
-document.getElementById('dater').value = new Date().toISOString().substring(0, 10);
-   function mydate() {
-    let date = document.getElementById("dater").value;
+function rldate() {
+    let date = $("#dater").value;
     date = new Date(date).toLocaleDateString("de-DE" , {
      year: "numeric",
      month: "2-digit",
      day: "2-digit",
    });
-    document.getElementById("date").value = date;
-   }
+    $("#date").value = date;
+    $("#date").focus();
+}
 </script>
 </body>
 </html>

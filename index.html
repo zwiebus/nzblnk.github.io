@@ -217,7 +217,7 @@ body {
        width: 90px;
        text-align: center;
 }
-.btn:hover, .btnreset:hover, .lang:hover {
+.btn:hover, .btnd:hover, .lang:hover {
         background-color:#EFEFEF;
         color:#2F2F2F;
         border:1px solid #3F6D9B;
@@ -225,7 +225,8 @@ body {
 .logo {
        position:absolute;
        top:0;
-       left: 50%;
+       left: 40%;
+       opacity: 0.2;
        transform: translate(0,-50%;
 }
 </style>
@@ -235,8 +236,8 @@ body {
 <div class="container">
 <h2>NZBLNK Generator</h2>
 <a id="cl" onclick="changeLang('en',null);" class="lang">Englisch</a>
-<p class="en" id="en" style="display:none;">Enter your data to generate a nzblnklink. Press the ready nzblnklink to copy it into your clipboard.<br> Mandatory fields are marked with a star (*). You can also drop a NZB file on this website.<br>** These fields are required for the direct search with <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a></p>
-<p class="de" id="de">Geben Sie Ihre Daten ein, um einen NZBLNK-Link zu erstellen. Klicken Sie auf den fertigen NZBLNK-Link, um ihn in Ihre Zwischenablage zu kopieren.<br>Obligatorische Felder sind mit einem Stern gekennzeichnet (*). Sie k&ouml;nnen auch eine NZB-Datei auf dieser Website ablegen.<br>** Diese Felder werden f&uuml;r die Direktsuche mit <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a> ben&ouml;tigt.</p>
+<p class="en" id="en" style="display:none;">Enter your data to generate a nzblnklink. Press the ready nzblnklink to copy it into your clipboard.<br> Mandatory fields are marked with a star (*). You can also drop a NZB file on this site.<br>** These fields are required for the direct search with <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a></p>
+<p class="de" id="de">Geben Sie Ihre Daten ein, um einen NZBLNK-Link zu erstellen. Klicken Sie auf den fertigen NZBLNK-Link, um ihn in Ihre Zwischenablage zu kopieren.<br>Obligatorische Felder sind mit einem Stern gekennzeichnet (*). Sie k&ouml;nnen auch eine NZB-Datei auf dieser Seite ablegen.<br>** Diese Felder werden f&uuml;r die Direktsuche mit <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a> ben&ouml;tigt.</p>
 <form id="form" style="margin-bottom:-10px;">
 <input type="text" class="nzbparam" id="tag" placeholder="Name *">
 <input type="text" class="nzbparam" id="header" placeholder="Header *">
@@ -404,6 +405,7 @@ function changeLang() {
     date.placeholder = "Datum (t.m.j oder Unix Zeitstempel) **";
   }
 }
+document.getElementById('dater').value = new Date().toISOString().substring(0, 10);
 function rldate() {
     let date = $("#dater").value;
     date = new Date(date).toLocaleDateString("de-DE" , {

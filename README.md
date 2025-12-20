@@ -1,5 +1,6 @@
 # Standalone version of the NZBLNK generator. 
 Just open index.html in your browser. 
+It is recommended to use the latest(final) version 1.5 
 ## Features
 <ul>
   <li>German/English switchable</li>

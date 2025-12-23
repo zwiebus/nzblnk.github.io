@@ -235,9 +235,9 @@ body {
 <!-- <img src="nzblnk-logo.png" class="logo">  -->
 <div class="container">
 <h2>NZBLNK Generator</h2>
-<a id="cl" onclick="changeLang('en',null);" class="lang">Englisch</a>
+<a id="cl" onclick="changeLang();" class="lang">Englisch</a>
 <p class="en" id="en" style="display:none;">Enter your data to generate a nzblnklink. Press the ready nzblnklink to copy it into your clipboard.<br> Mandatory fields are marked with a star (*). You can also drop a NZB file on this site.<br>** These fields are required for the direct search with <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a></p>
-<p class="de" id="de">Geben Sie Ihre Daten ein, um einen NZBLNK-Link zu erstellen. Klicken Sie auf den fertigen NZBLNK-Link, um ihn in Ihre Zwischenablage zu kopieren.<br>Obligatorische Felder sind mit einem Stern gekennzeichnet (*). Sie k&ouml;nnen auch eine NZB-Datei auf dieser Seite ablegen.<br>** Diese Felder werden f&uuml;r die Direktsuche mit <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a> ben&ouml;tigt.</p>
+<p class="de" id="de">Geben Sie Ihre Daten ein, um einen NZBLNK-Link zu erstellen. Klicken Sie auf den fertigen NZBLNK-Link, um ihn in Ihre Zwischenablage zu kopieren.<br>Obligatorische Felder sind mit einem Stern gekennzeichnet (*). Sie können auch eine NZB-Datei auf dieser Seite ablegen.<br>** Diese Felder werden für die Direktsuche mit <a class="link" href="https://github.com/Tensai75/nzb-monkey-go">nzb-monkey-go</a> benötigt.</p>
 <form id="form" style="margin-bottom:-10px;">
 <input type="text" class="nzbparam" id="tag" placeholder="Name *">
 <input type="text" class="nzbparam" id="header" placeholder="Header *">
@@ -246,9 +246,9 @@ body {
 <input type="text" class="nzbparam" id="date" placeholder="Datum (t.m.j oder Unix Zeitstempel) **"/>
 </form>
 <input type="date" class="date" id="dater"/>
-<button onclick="rldate()" id="btnd" class="btnd small">Einf&uuml;gen</button>
+<button onclick="rldate()" id="btnd" class="btnd small">Einfügen</button>
 <div class="linklabel"><span class="ens" style="display:none;">The resulting nzblnklink:</span><span class="des">Der fertige NZBLNK-Link:</span></div>
-<a id="reslnk" href="#" class="reslnk invalid">Bitte f&uuml;lle die Felder aus.</a>
+<a id="reslnk" href="#" class="reslnk invalid">Bitte fülle die Felder aus.</a>
 </div>
 <div class="buttons">
 <button id="btn-cplnk" data-tpl="{nzblnk}" class="btn">NZBLNK</button>
@@ -337,82 +337,74 @@ let readFile = e => new Promise((t, n) => {
 });
 
 function resetForm() {
-  document.getElementById('form').reset();
-  let fcl = document.getElementById('cl')
+  $('form').reset();
+  let fcl = $('#cl');
   if (fcl.textContent === 'German') {
-   document.getElementById('reslnk').textContent  = "Please fill the fields.";
+   $('#reslnk').textContent  = "Please fill the fields.";
   } else {
-   document.getElementById('reslnk').textContent  = "Bitte f\u00FClle die Felder aus."
+   $('#reslnk').textContent  = "Bitte f\u00FClle die Felder aus."
   }
 }
 function changeLang() {
-  const x = document.querySelector(".en");
-  if (x.style.display === "none") {
+  const x = $('.en');
+   if (x.style.display === "none") {
     x.style.display = "block";
-      document.querySelector('.de').style.display = 'none';
-  } else {
+      $('.de').style.display = 'none';
+   } else {
     x.style.display = "none";
-      document.querySelector('.de').style.display = 'block';
-  }
-  const y = document.querySelector(".ens");
-    if (y.style.display === "none") {
-    y.style.display = "block";
-      document.querySelector('.des').style.display = 'none';
-  } else {
-    y.style.display = "none";
-      document.querySelector('.des').style.display = 'block';
-  }
-  const z = document.getElementById("cl");
-    if (z.textContent === "Englisch") {
+      $('.de').style.display = 'block';
+   }
+  const z = $("#cl");
+   if (z.textContent === "Englisch") {
     z.textContent = "German";
    } else {
     z.textContent = "Englisch";
-  }
-  const r = document.getElementById("btnd");
-    if (r.textContent === "Paste") {
+   }
+  const r = $("#btnd");
+   if (r.textContent === "Paste") {
     r.textContent = "Einf\u00FCgen";
    } else {
     r.textContent = "Paste";
-  }
-    const res = $("#reslnk");
-    if (res.textContent === "Bitte f\u00FClle die Felder aus.") {
+   }
+  const res = $("#reslnk");
+   if (res.textContent === "Bitte f\u00FClle die Felder aus.") {
     res.textContent = "Please fill the fields.";
    } else {
     res.textContent = "Bitte f\u00FClle die Felder aus.";
-  }
-    const tag = $("#tag");
-    if (tag.placeholder === "Name *") {
+   }
+  const tag = $("#tag");
+   if (tag.placeholder === "Name *") {
     tag.placeholder = "Title *";
    } else {
     tag.placeholder = "Name *";
-  }
-    const pass = $("#pass");
-    if (pass.placeholder === "Passwort") {
+   }
+  const pass = $("#pass");
+   if (pass.placeholder === "Passwort") {
     pass.placeholder = "Password";
    } else {
     pass.placeholder = "Passwort";
-  }
-    const group = $("#group");
-    if (group.placeholder === "Gruppe (Mehrere Gruppen mit einem Leerzeichen trennen) **") {
+   }
+  const group = $("#group");
+   if (group.placeholder === "Gruppe (Mehrere Gruppen mit einem Leerzeichen trennen) **") {
     group.placeholder = "Group (Please separate multiple groups with a space) **";
    } else {
     group.placeholder = "Gruppe (Mehrere Gruppen mit einem Leerzeichen trennen) **";
-  }
-    const date = $("#date");
-    if (date.placeholder === "Datum (t.m.j oder Unix Zeitstempel) **") {
+   }
+  const date = $("#date");
+   if (date.placeholder === "Datum (t.m.j oder Unix Zeitstempel) **") {
     date.placeholder = "Date (d.m.y. or Unix Timestamp **";
    } else {
     date.placeholder = "Datum (t.m.j oder Unix Zeitstempel) **";
-  }
+   }
 }
-document.getElementById('dater').value = new Date().toISOString().substring(0, 10);
+$('#dater').value = new Date().toISOString().substring(0, 10);
 function rldate() {
-    let date = $("#dater").value;
+   let date = $("#dater").value;
     date = new Date(date).toLocaleDateString("de-DE" , {
      year: "numeric",
      month: "2-digit",
      day: "2-digit",
-   });
+    });
     $("#date").value = date;
     $("#date").focus();
 }

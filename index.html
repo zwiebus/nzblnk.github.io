@@ -243,7 +243,7 @@ body {
 <input type="text" class="nzbparam" id="header" placeholder="Header *">
 <input type="text" class="nzbparam" id="pass" placeholder="Passwort">
 <input type="text" class="nzbparam" id="group" placeholder="Gruppe (Mehrere Gruppen mit einem Leerzeichen trennen) **">
-<input type="text" class="nzbparam" id="date" placeholder="Datum (t.m.j oder Unix Zeitstempel) **"/>
+<input type="text" class="nzbparam" id="date" placeholder="Datum (tt.mm.jjjj oder Unix Zeitstempel) **"/>
 </form>
 <input type="date" class="date" id="dater"/>
 <button onclick="rldate()" id="btnd" class="btnd small">Einfügen</button>
@@ -354,6 +354,14 @@ function changeLang() {
     x.style.display = "none";
       $('.de').style.display = 'block';
    }
+  const y = $('.ens');
+   if (y.style.display === "none") {
+    y.style.display = "block";
+      $('.des').style.display = 'none';
+   } else {
+    y.style.display = "none";
+      $('.des').style.display = 'block';
+   }
   const z = $("#cl");
    if (z.textContent === "Englisch") {
     z.textContent = "German";
@@ -391,10 +399,10 @@ function changeLang() {
     group.placeholder = "Gruppe (Mehrere Gruppen mit einem Leerzeichen trennen) **";
    }
   const date = $("#date");
-   if (date.placeholder === "Datum (t.m.j oder Unix Zeitstempel) **") {
-    date.placeholder = "Date (d.m.y. or Unix Timestamp **";
+   if (date.placeholder === "Datum (tt.mm.jjjj oder Unix Zeitstempel) **") {
+    date.placeholder = "Date (dd.mm.yyyy or Unix Timestamp **";
    } else {
-    date.placeholder = "Datum (t.m.j oder Unix Zeitstempel) **";
+    date.placeholder = "Datum (tt.mm.jjjj oder Unix Zeitstempel) **";
    }
 }
 $('#dater').value = new Date().toISOString().substring(0, 10);

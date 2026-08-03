@@ -280,11 +280,15 @@ let constuctLink = e => {
         a = [];
     if (Object.keys(n).forEach(e => {
        let r = n[e];
-           if(r != $("#group").value){
-            "" !== r.trim() && (a.push(e + "=" + encodeURIComponent(r).replace(/%20/g, ".")), t = t.replace(e, ""))
-            } else {
+           if(r == $("#group").value) {
             "" !== r.trim() && (a.push(e + "=" + encodeURIComponent(r).replace(/%20/g, "&g=")), t = t.replace(e, ""))
-            }
+           } else if(r == $("#header").value) {
+            "" !== r.trim() && (a.push(e + "=" + encodeURIComponent(r).replace(/%20/g, " ")), t = t.replace(e, ""))
+           } else if(r == $("#pass").value) {
+            "" !== r.trim() && (a.push(e + "=" + encodeURIComponent(r).replace(/%20/g, " ")), t = t.replace(e, ""))
+           } else {
+            "" !== r.trim() && (a.push(e + "=" + encodeURIComponent(r).replace(/%20/g, ".")), t = t.replace(e, ""))
+           }
         }), "" !== t) return $lnk.href = "#", $lnk.textContent = "Please fill all mandatory fields (marked with *).", void $lnk.classList.add("invalid");
     $lnk.classList.remove("invalid"), a = "nzblnk:?" + a.join("&"), $lnk.href = $lnk.textContent = a
 };

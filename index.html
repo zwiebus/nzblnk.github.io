@@ -137,7 +137,6 @@ body {
         border-radius: 5px;
         font-size: 1em;
         background-color: #e7ebf3;
-
 }
 @media screen and (min-width: 768px) {
          .container input.nzbparam {
@@ -148,15 +147,16 @@ body {
         .container input.nzbparam {
            width: 100%;
         }
+        .container .date {
+           margin-left: 0!Important;
+           margin-right: 0!Important;
+        }
         button, .btn {
            width: 330px!Important;
         }
         .small {
            width: 100px!Important;
            margin-top: 5px!Important;
-        }
-        .date {
-           margin-left: 5%!Important;
         }
 }
 .container input.nzbparam:focus {
@@ -182,55 +182,39 @@ body {
 .container input.hidden {
         opacity: .01;
 }
-@media print, screen and (max-width: 480px) {
-        .msg {
-          font-size: 20pt;
-        }
-}
 .link {
-        color:#00AFFF;
+        color: #00AFFF;
         font-size: 16px;
 }
 .link:hover {
-        color:#FF0000;
+        color: #FF0000;
 }
 .buttons {
-        text-align:center;
+        text-align: center;
         margin: 0 auto;
         width: 100%;
 }
 .btn, .btnd, .lang {
-        background-color:#1A5779;
-        color:#fff;
-        font-size:16px;
-        border:1px solid #1C60A0;
-        border-radius:5px;
+        background-color: #1A5779;
+        color :#fff;
+        font-size: 16px;
+        border: 1px solid #1C60A0;
+        border-radius: 5px;
         margin-bottom: 10px;
-        width:120px;
-        padding:2px 12px;
-        box-shadow:0 0 0;
+        width: 120px;
+        padding: 2px;
+        text-align: center;
         cursor: pointer;
-}
-.small {
-        width: 100px;
 }
 .lang {
        position: absolute;
-       top:60px;
+       top: 60px;
        right: 15%;
-       width: 90px;
-       text-align: center;
 }
-.btn:hover, .btnd:hover, .lang:hover {
-        background-color:#EFEFEF;
-        color:#2F2F2F;
-        border:1px solid #3F6D9B;
-}
-.logo {
-       position:absolute;
-       top:0;
-       left: 40%;
-       opacity: 0.2;
+.btn:hover, .btnd:hover, .lang:hover, .upd:hover {
+        background-color: #DFF4F7;
+        color: #2F2F2F;
+        border: 1px solid #3F6D9B;
 }
 </style>
 </head>
@@ -248,7 +232,8 @@ body {
 <input type="text" class="nzbparam" id="date" placeholder="Datum (tt.mm.jjjj oder Unix Zeitstempel) **"/>
 </form>
 <input type="date" class="date" id="dater"/>
-<button onclick="rldate()" id="btnd" class="btnd small">Einfügen</button>
+<button onclick="rldate()" id="btnd" class="btnd small">Datum</button>
+<button onclick="timestamp()" id="btnd" class="btnd small">Timestamp</button>
 <div class="linklabel"><span class="ens" style="display:none;">The resulting nzblnklink:</span><span class="des">Der fertige NZBLNK-Link:</span></div>
 <a id="reslnk" href="#" class="reslnk invalid">Bitte fülle die Felder aus.</a>
 </div>
@@ -375,10 +360,10 @@ function changeLang() {
     z.textContent = "Englisch";
    }
   const r = $("#btnd");
-   if (r.textContent === "Paste") {
-    r.textContent = "Einf\u00FCgen";
+   if (r.textContent === "Date") {
+    r.textContent = "Datum";
    } else {
-    r.textContent = "Paste";
+    r.textContent = "Date";
    }
   const res = $("#reslnk");
    if (res.textContent === "Bitte f\u00FClle die Felder aus.") {
@@ -420,6 +405,12 @@ function rldate() {
      day: "2-digit",
     });
     $("#date").value = date;
+    $("#date").focus();
+}
+function timestamp() {
+   let date = $("#dater").value;
+   let timestamp = Date.parse(date);
+    $("#date").value = timestamp;
     $("#date").focus();
 }
 </script>

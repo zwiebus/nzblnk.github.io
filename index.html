@@ -409,7 +409,7 @@ function rldate() {
 }
 function timestamp() {
    let date = $("#dater").value;
-   let timestamp = Date.parse(date);
+   let timestamp = Date.parse(date)/1000;
     $("#date").value = timestamp;
     $("#date").focus();
 }

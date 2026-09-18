@@ -9,3 +9,5 @@ Just open index.html in your browser.
   <li>Drag and drop an NZB file</li>
   <li>Reset form</li>
 </ul<
+  
+![Output](nzblnkgen.png)
